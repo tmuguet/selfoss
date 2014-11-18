@@ -12,6 +12,9 @@
     <!--  Mobile viewport optimized: j.mp/bplateviewport -->
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
     
+    <!--  Add support for fullscreen Webapp on iPhone 5 -->
+    <meta name="viewport" content="initial-scale=1, user-scalable=no, maximum-scale=1" media="(device-height: 568px)" />
+    
     <!-- app 'behaviour' when adding link to iDevice springboard -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
@@ -32,8 +35,8 @@
     <form action="<?PHP echo $this->base; ?>?login=1" method="post">
     <ul id="login">
         <li><h1>selfoss login</h1></li>
-        <li><label><?PHP echo \F3::get('lang_login_username'); ?>:</label> <input type="text" name="username" id="username" /></li>
-        <li><label><?PHP echo \F3::get('lang_login_password'); ?>:</label> <input type="password" name="password" /></li>
+         <li><label><?PHP echo trim(\F3::get('lang_login_username')); ?>:</label> <input type="text" name="username" id="username" /></li>
+         <li><label><?PHP echo trim(\F3::get('lang_login_password')); ?>:</label> <input type="password" name="password" /></li>
         <?PHP if(isset($this->error)) : ?>
         <li class="error"><?PHP echo $this->error; ?></li>
         <?PHP endif; ?>

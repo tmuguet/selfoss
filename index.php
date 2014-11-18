@@ -1,41 +1,22 @@
 <?php
 
-$f3 = require(__DIR__.'/libs/f3/base.php');
-
-$f3->set('DEBUG',0);
-$f3->set('version','2.8-SNAPSHOT');
-$f3->set('AUTOLOAD',__dir__.'/;libs/f3/;libs/;libs/WideImage/;daos/;libs/twitteroauth/;libs/FeedWriter/');
-$f3->set('cache',__dir__.'/data/cache');
-$f3->set('BASEDIR',__dir__);
-$f3->set('LOCALES',__dir__.'/public/lang/'); 
-
-// read defaults
-$f3->config('defaults.ini');
-
-// read config, if it exists
-if(file_exists('config.ini'))
-    $f3->config('config.ini');
+require(__DIR__.'/common.php');
 
 // Load custom language
-$f3->set('LANGUAGE',$f3->get('language'));
-
-// init logger
-$f3->set(
-    'logger', 
-    new \helpers\Logger( __dir__.'/data/logs/default.log', $f3->get('logger_level') )
-);
+$lang = $f3->get('language');
+if($lang!='0' && $lang!='')
+    $f3->set('LANGUAGE', $lang);
 
 // init authentication
 $f3->set('auth', new \helpers\Authentication());
 
 // define js files
 $f3->set('js', array(
-    'public/js/jquery-1.8.3.min.js',
-    'public/js/jquery-ui-1.10.0.custom.js',
+    'public/js/jquery-2.1.1.min.js',
+    'public/js/jquery-ui.js',
     'public/js/jquery.mCustomScrollbar.min.js',
-    'public/js/jquery.mousewheel.js',
+    'public/js/jquery.mousewheel.min.js',
     'public/js/lazy-image-loader.js',
-    'public/js/color-by-brightness.js',
     'public/js/spectrum.js',
     'public/js/jquery.hotkeys.js',
     'public/js/selfoss-base.js',
@@ -45,12 +26,14 @@ $f3->set('js', array(
     'public/js/selfoss-events-entries.js',
     'public/js/selfoss-events-entriestoolbar.js',
     'public/js/selfoss-events-sources.js',
-    'public/js/selfoss-shortcuts.js'
+    'public/js/selfoss-shortcuts.js',
+    'public/js/jquery.fancybox.pack.js'
 ));
 
 // define css files
 $css = array(
     'public/css/jquery.mCustomScrollbar.css',
+    'public/css/jquery.fancybox.css',
     'public/css/spectrum.css',
     'public/css/reset.css',
     'public/css/style.css'

@@ -38,7 +38,7 @@ var selfoss = {
             }
         
             // set items per page
-            selfoss.filter.itemsPerPage = $('.entry').length;
+            selfoss.filter.itemsPerPage = $('#config').data('items_perpage');
             
             // initialize type by homepage config param
             selfoss.filter.type = $('#nav-filter li.active').attr('id').replace('nav-filter-', '');
@@ -179,7 +179,7 @@ var selfoss = {
                 else if (textStatus == "parsererror")
                     location.reload();
                 else if (errorThrown)
-                    alert('Load list error: ' + errorThrown);
+                    selfoss.showError('Load list error: '+errorThrown);
             }
         });
     },
@@ -202,7 +202,7 @@ var selfoss = {
                 selfoss.events.navigation();
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert('Load tags error: '+errorThrown);
+                selfoss.showError('Load tags error: '+errorThrown);
             },
             complete: function(jqXHR, textStatus) {
                 $('#nav-tags').removeClass('loading');
@@ -260,7 +260,49 @@ var selfoss = {
                 }
             });
         }
+    },
+    
+    
+    /**
+     * anonymize links
+     *
+     * @return void
+     * @param parent element
+     */
+    showError: function(message) {
+        if(typeof(message) == 'undefined') {
+            var message = "Oops! Something went wrong";
+        }
+        var error = $('#error');
+        error.html(message);
+        error.show();
+        window.setTimeout(function() {
+            error.click();
+        }, 10000);
+        error.unbind('click').click(function() {
+            error.fadeOut();
+        });
+    },
+
+    /**
+     * Setup fancyBox image viewer
+     * @param content element
+     * @param int
+     */
+    setupFancyBox: function(content, id) {
+        // Close existing fancyBoxes
+        $.fancybox.close();
+        var images = $(content).find('a[href$=".jpg"],a[href$=".jpeg"],a[href$=".png"],a[href$=".gif"]');
+        $(images).attr('rel', 'gallery-'+id).unbind('click');
+        $(images).fancybox({
+            helpers: {
+                overlay: {
+                    locked: false
+                }
+            }
+        });
     }
+
 };
 
 selfoss.init();

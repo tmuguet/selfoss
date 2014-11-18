@@ -24,7 +24,7 @@ selfoss.events.navigation = function() {
                     selfoss.reloadList();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Can not save new color: ' + errorThrown);
+                    selfoss.showError('Can not save new color: '+errorThrown);
                 }
             });
             
@@ -70,7 +70,8 @@ selfoss.events.navigation = function() {
     
     // hide/show tags
     $('#nav-tags-title').unbind('click').click(function () {
-        var s = $('#nav-tags').slideToggle("slow");
+        $('#nav-tags').slideToggle("slow");
+        $('#nav-tags-title').toggleClass("nav-tags-collapsed nav-tags-expanded");
     });
     
     // source
@@ -91,7 +92,8 @@ selfoss.events.navigation = function() {
     
     // hide/show sources
     $('#nav-sources-title').unbind('click').click(function () {
-        var s = $('#nav-sources').slideToggle("slow");
+        $('#nav-sources').slideToggle("slow");
+        $('#nav-sources-title').toggleClass("nav-sources-collapsed nav-sources-expanded");
     });
     
     // show hide navigation for mobile version
@@ -115,6 +117,34 @@ selfoss.events.navigation = function() {
             });
         }
         
+    });
+
+    // updates sources
+    $('#nav-refresh').unbind('click').click(function () {
+        // show loading
+        var content = $('#content');
+        var articleList = content.html();
+        $('#content').addClass('loading').html("");
+          
+        $.ajax({
+            url: $('base').attr('href') + 'update',
+            type: 'GET',
+            dataType: 'text',
+            data: {},
+            success: function(response) {
+                // hide nav on smartphone
+                if(selfoss.isSmartphone())
+                    $('#nav-mobile-settings').click();
+                    
+                // refresh list
+                 selfoss.reloadList();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                content.html(articleList);
+                $('#content').removeClass('loading');
+                alert('Can not refresh sources: ' + errorThrown);
+            }
+        });
     });
     
     // login
@@ -167,7 +197,7 @@ selfoss.events.navigation = function() {
                 error: function(jqXHR, textStatus, errorThrown) {
                     content.html(articleList);
                     $('#content').removeClass('loading');
-                    alert('Can not mark all visible item: ' + errorThrown);
+                    selfoss.showError('Can not mark all visible item:'+errorThrown);
                 }
             });
         });

@@ -1,5 +1,3 @@
-#AddHandler php53-cgi .php
-
 # Enable rewrite engine and route requests to framework
 RewriteEngine On
 #RewriteBase /selfoss
@@ -124,3 +122,6 @@ RewriteRule (.*) public/$1 [L]
     </IfModule>
 
 </IfModule>
+
+# add font types for chromium/chrome
+AddType application/font-woff woff

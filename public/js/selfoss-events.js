@@ -33,6 +33,7 @@ selfoss.events = {
         // remove given hash (we just use it for history support)
         if(location.hash.trim().length!=0)
             location.hash = "";
+
     },
     
     
@@ -75,7 +76,7 @@ selfoss.events = {
                     if (textStatus == "abort")
                         return;
                     else if (errorThrown)
-                        alert('Load list error: ' + errorThrown);
+                        selfoss.showError('Load list error: '+errorThrown); 
                 },
                 complete: function(jqXHR, textStatus) {
                     $('#content').removeClass('loading');
@@ -96,11 +97,10 @@ selfoss.events = {
             var start = $('#nav-tags-wrapper').position().top;
             var windowHeight = $(window).height();
             $('#nav-tags-wrapper').height(windowHeight - start - 100);
-            $("#nav-tags-wrapper").mCustomScrollbar("update");
             $('#nav').show();
         } else {
             $('#nav-tags-wrapper').height("auto");
             $("#nav-tags-wrapper").mCustomScrollbar("disable",selfoss.isSmartphone());
         }
-    }    
+    }
 };
